@@ -129,9 +129,9 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 container-custom py-20 px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8 animate-slide-left">
+      <div className="relative z-10  py-20">
+        <div className="grid gap-12 items-center">
+          <div className="space-y-8 animate-slide-left pl-28">
             <div className="space-y-6">
               <div className="inline-block">
                 <span className="bg-secondary/10 text-secondary px-4 py-2 rounded-full text-sm font-semibold border border-secondary/20">
@@ -152,7 +152,7 @@ const Hero = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {stats.map((stat, index) => (
                 <div key={index} className="flex items-center space-x-4 bg-white/50 backdrop-blur-sm p-3 rounded-lg border border-white/20">
                   <div className="p-2 bg-primary/10 rounded-full">
@@ -168,7 +168,7 @@ const Hero = () => {
           </div>
 
           {/* Track Parcel Box */}
-          <div className="relative w-full max-w-md mx-auto lg:mx-0 lg:ml-auto animate-fade-in-right mt-8 lg:mt-0">
+          {/* <div className="relative w-full max-w-md mx-auto lg:mx-0 lg:ml-auto animate-fade-in-right mt-8 lg:mt-0">
             <Card className="w-full bg-white/95 backdrop-blur-md shadow-2xl border-t-4 border-t-primary transform hover:scale-[1.02] transition-transform duration-300">
               <CardHeader className="pb-2">
                 <CardTitle className="text-2xl font-bold flex items-center gap-3">
@@ -212,7 +212,7 @@ const Hero = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
+          </div> */}
         </div>
       </div>
 
