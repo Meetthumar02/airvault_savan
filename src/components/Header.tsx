@@ -89,7 +89,7 @@ const Header = () => {
             </nav>
 
             {/* Right Side - Trusted Partners */}
-            <div className="hidden lg:flex items-center gap-4 border-l border-border/50 pl-6 ml-auto">
+            {/* <div className="hidden lg:flex items-center gap-4 border-l border-border/50 pl-6 ml-auto">
               <div className="flex flex-col items-center">
                 <div className="flex items-center gap-4">
                   <img src="/iata_v2.png" alt="IATA" className="h-14 w-auto object-contain hover:scale-105 transition-transform" />
@@ -97,6 +97,36 @@ const Header = () => {
                   <img src="/gla_v2.png" alt="GLA" className="h-12 w-auto object-contain hover:scale-105 transition-transform" />
                 </div>
               </div>
+            </div> */}
+
+            {/* Right Side Section */}
+            <div className="hidden lg:flex items-center gap-6 ml-auto">
+
+              {/* Buttons */}
+              <div className="flex items-center gap-3">
+
+                {/* <Button variant="outline-animated" asChild>
+                  <Link to="/track-trace">Track & Trace</Link>
+                </Button> */}
+
+                {/* ✅ Internship Button */}
+                <Button variant="outline-animated" asChild>
+                  <Link to="/internship">Internship</Link>
+                </Button>
+                {/* 
+                <Button variant="gradient-primary">
+                  Get Quote
+                </Button> */}
+
+              </div>
+
+              {/* Trusted Logos */}
+              <div className="flex items-center gap-4 border-l border-border/50 pl-6">
+                <img src="/iata_v2.png" className="h-14 w-auto object-contain hover:scale-105 transition-transform" />
+                <img src="/jctrans.png" className="h-8 w-auto object-contain hover:scale-105 transition-transform" />
+                <img src="/gla_v2.png" className="h-12 w-auto object-contain hover:scale-105 transition-transform" />
+              </div>
+
             </div>
 
             {/* Mobile Menu Button */}

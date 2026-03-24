@@ -22,7 +22,7 @@ const AdminLayout = () => {
     setToastMessage(message);
     setToastType(type);
     setToastVisible(true);
-    setTimeout(() => setToastVisible(false), 1000); 
+    setTimeout(() => setToastVisible(false), 1000);
   };
 
   const handleLogout = async () => {
@@ -77,9 +77,8 @@ const AdminLayout = () => {
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
       <aside
-        className={`fixed md:static inset-y-0 left-0 w-64 bg-blue-900 text-white flex flex-col z-50 transform ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-        } transition-transform duration-200`}
+        className={`fixed md:static inset-y-0 left-0 w-64 bg-blue-900 text-white flex flex-col z-50 transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+          } transition-transform duration-200`}
       >
         {/* Logo */}
         <div className="p-6 flex justify-center border-b border-blue-700">
@@ -91,18 +90,16 @@ const AdminLayout = () => {
           <NavLink
             to="/admin/dashboard"
             className={({ isActive }) =>
-              `block px-6 py-3 rounded-l-full transition ${
-                isActive ? "bg-[#E5A121] text-white font-semibold shadow-md" : "hover:bg-blue-800"
+              `block px-6 py-3 rounded-l-full transition ${isActive ? "bg-[#E5A121] text-white font-semibold shadow-md" : "hover:bg-blue-800"
               }`
             }
           >
             Dashboard
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to="/admin/services"
             className={({ isActive }) =>
-              `block px-6 py-3 rounded-l-full transition ${
-                isActive ? "bg-[#E5A121] text-white font-semibold shadow-md" : "hover:bg-blue-800"
+              `block px-6 py-3 rounded-l-full transition ${isActive ? "bg-[#E5A121] text-white font-semibold shadow-md" : "hover:bg-blue-800"
               }`
             }
           >
@@ -111,8 +108,7 @@ const AdminLayout = () => {
           <NavLink
             to="/admin/blog"
             className={({ isActive }) =>
-              `block px-6 py-3 rounded-l-full transition ${
-                isActive ? "bg-[#E5A121] text-white font-semibold shadow-md" : "hover:bg-blue-800"
+              `block px-6 py-3 rounded-l-full transition ${isActive ? "bg-[#E5A121] text-white font-semibold shadow-md" : "hover:bg-blue-800"
               }`
             }
           >
@@ -121,12 +117,21 @@ const AdminLayout = () => {
           <NavLink
             to="/admin/case-studies"
             className={({ isActive }) =>
-              `block px-6 py-3 rounded-l-full transition ${
-                isActive ? "bg-[#E5A121] text-white font-semibold shadow-md" : "hover:bg-blue-800"
+              `block px-6 py-3 rounded-l-full transition ${isActive ? "bg-[#E5A121] text-white font-semibold shadow-md" : "hover:bg-blue-800"
               }`
             }
           >
             Case Studies
+          </NavLink> */}
+
+          <NavLink
+            to="/admin/internship"
+            className={({ isActive }) =>
+              `block px-6 py-3 rounded-l-full transition ${isActive ? "bg-[#E5A121] text-white font-semibold shadow-md" : "hover:bg-blue-800"
+              }`
+            }
+          >
+            Internship
           </NavLink>
         </nav>
       </aside>
@@ -175,7 +180,8 @@ const AdminLayout = () => {
 
         {/* Footer */}
         <footer className="bg-white text-center py-4 shadow border-t border-gray-200 text-gray-600 text-sm">
-          © 2025 <span className="text-[#E5A121] font-semibold">Admin Panel</span>. All rights reserved.
+          © {new Date().getFullYear()}{" "}
+          <span className="text-[#E5A121] font-semibold">Admin Panel</span>. All rights reserved.
         </footer>
       </div>
 
@@ -227,13 +233,13 @@ const AdminLayout = () => {
       )}
 
       {/* Toast Notification */}
-        {toastVisible && (
-          <div
-            className="fixed top-4 right-4 bg-blue-600 text-white font-semibold px-6 py-3 rounded shadow-lg z-50 animate-slide-down"
-          >
-            {toastMessage}
-          </div>
-        )}
+      {toastVisible && (
+        <div
+          className="fixed top-4 right-4 bg-blue-600 text-white font-semibold px-6 py-3 rounded shadow-lg z-50 animate-slide-down"
+        >
+          {toastMessage}
+        </div>
+      )}
 
     </div>
   );

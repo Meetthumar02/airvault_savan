@@ -15,6 +15,9 @@ import TrackTracePage from "./pages/TrackTracePage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
 import WhatsAppButton from "./components/WhatsAppButton";
+import Internship from "./pages/Internship";
+
+
 
 // Admin 
 import PrivateRoute from "./pages/admin/PrivateRoute";
@@ -27,6 +30,7 @@ import Blog from "./pages/admin/Blog";
 import Blog_manage from "./pages/admin/Blog_manage";
 import CaseStudies from "./pages/admin/CaseStudies";
 import CaseStudies_manage from "./pages/admin/CaseStudies_manage";
+import InternshipAdmin from "./pages/admin/Internship";
 
 
 const queryClient = new QueryClient();
@@ -48,6 +52,7 @@ const App = () => (
           <Route path="/events" element={<EventsPage />} />
           <Route path="/track-trace" element={<TrackTracePage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/internship" element={<Internship />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
 
           {/* Admin login */}
@@ -65,6 +70,7 @@ const App = () => (
               <Route path="/admin/case-studies" element={<CaseStudies />} />
               <Route path="/admin/case-studies/add" element={<CaseStudies_manage />} />
               <Route path="/admin/case-studies/edit/:id" element={<CaseStudies_manage />} />
+              <Route path="/admin/internship" element={<InternshipAdmin />} />
             </Route>
           </Route>
 

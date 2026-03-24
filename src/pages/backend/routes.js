@@ -1,40 +1,8 @@
-// import express from "express";
-// const router = express.Router();
-
-// import {
-//   getAllServices,
-//   getServiceById,
-//   addService,
-//   updateService,
-//   deleteService,
-// } from "../backend/controllers/serviceController.js";
-
-// import {
-//   loginAdmin,
-//   registerAdmin,
-//   logoutAdmin,
-//   updateAdminProfile
-// } from "../backend/controllers/authController.js";
-
-// // ---------------- Services routes ----------------
-// router.get("/services", getAllServices);
-// router.get("/services/:id", getServiceById);
-// router.post("/services", addService);
-// router.put("/services/:id", updateService);
-// router.delete("/services/:id", deleteService);
-
-// // ---------------- Auth routes ----------------
-// router.post("/auth/login", loginAdmin);
-// router.post("/auth/register", registerAdmin);
-// router.post("/auth/logout", logoutAdmin);
-// router.put("/auth/update-profile", updateAdminProfile);
-
-
-// export default router;
-
 import express from "express";
 const router = express.Router();
-
+router.get("/test", (req, res) => {
+  res.send("API working");
+});
 import {
   getAllServices,
   getServiceById,
@@ -43,7 +11,12 @@ import {
   deleteService,
   upload // multer middleware exported from controller
 } from "../backend/controllers/serviceController.js";
-
+import {
+  createInternship,
+  getAllInternships,
+  getInternshipById,
+  submitTest
+} from "../backend/controllers/internshipController.js";
 import {
   loginAdmin,
   registerAdmin,
@@ -74,4 +47,9 @@ router.post("/auth/register", registerAdmin);
 router.post("/auth/logout", logoutAdmin);
 router.put("/auth/update-profile", updateAdminProfile);
 
+
+router.post("/internship", createInternship);
+router.get("/internship", getAllInternships);
+router.get("/internship/:id", getInternshipById);
+router.post("/internship/submit-test", submitTest);
 export default router;
