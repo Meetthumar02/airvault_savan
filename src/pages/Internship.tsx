@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import BASE_URI from "@/config";
-
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 const Internship = () => {
 
     const [form, setForm] = useState({
@@ -16,7 +17,8 @@ const Internship = () => {
     });
 
     const [submitted, setSubmitted] = useState(false);
-    const [questionsList, setQuestionsList] = useState([0]);
+    // const [questionsList, setQuestionsList] = useState([0]);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [answers, setAnswers] = useState({});
     const [timeLeft, setTimeLeft] = useState(60);
     const [lockedQuestions, setLockedQuestions] = useState({});
@@ -208,7 +210,7 @@ const Internship = () => {
     const questions = sections.flatMap(s => s.questions);
     const sectionTitles = sections.flatMap(s => s.questions.map(() => s.title));
 
-    const currentIndex = questionsList.length - 1;
+    // const currentIndex = questionsList.length - 1;
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -258,18 +260,19 @@ const Internship = () => {
 
         if (timeLeft === 0) {
             if (currentIndex === questions.length - 1) {
-                handleFinalSubmit(); // 🔥 last question auto submit
+                handleFinalSubmit();
             } else {
                 handleNext();
             }
             return;
         }
+
         const timer = setTimeout(() => {
             setTimeLeft((prev) => prev - 1);
         }, 1000);
 
         return () => clearTimeout(timer);
-    }, [timeLeft, submitted]);
+    }, [timeLeft, submitted, currentIndex]);
 
     // ✅ SELECT
     const handleSelect = (qIndex, opt) => {
@@ -340,110 +343,278 @@ const Internship = () => {
         setTimeLeft(60);
 
         if (currentIndex < questions.length - 1) {
-            setQuestionsList([...questionsList, currentIndex + 1]);
+            setCurrentIndex(currentIndex + 1);
         } else {
             handleFinalSubmit();
         }
     };
-
     return (
-        <div className="min-h-screen bg-[#f5f7fc] py-10 px-6">
-            <div className="w-full bg-white rounded-xl shadow">
+        <>
+            {/* GLOBAL HEADER */}
+            <Header />
 
-                {/* HEADER */}
-                <div className="bg-[#0057b8] text-white px-8 py-6 rounded-t-xl">
-                    <h1 className="text-xl font-semibold">Internship Application</h1>
-                </div>
+            <div className="min-h-screen bg-[#f5f7fc] py-10 px-6">
+                <div className="w-full bg-white rounded-xl shadow">
 
-                {/* FORM */}
-                <form onSubmit={handleSubmit} className="p-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <input name="name" value={form.name} onChange={handleChange} placeholder="Full Name" className="p-3 border rounded-lg" required />
-                        <input name="email" value={form.email} onChange={handleChange} placeholder="Email" className="p-3 border rounded-lg" required />
-                        <input name="phone" value={form.phone} onChange={handleChange} placeholder="Phone" className="p-3 border rounded-lg" required />
-                        <input name="college" value={form.college} onChange={handleChange} placeholder="College" className="p-3 border rounded-lg" />
-                        <input name="degree" value={form.degree} onChange={handleChange} placeholder="Degree" className="p-3 border rounded-lg" />
-                        <input name="city" value={form.city} onChange={handleChange} placeholder="City" className="p-3 border rounded-lg" />
+                    {/* PAGE HEADER */}
+                    {/* <div className="bg-[#0057b8] text-white px-8 py-6 rounded-t-xl">
+                        <h1 className="text-xl font-semibold">Internship Application</h1>
+                    </div> */}
+                    <div className="bg-blue-700 text-white p-6 rounded-t-xl">
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <h1 className="text-lg font-bold">Airvault Express</h1>
+                                <p className="text-xs opacity-80">AND LOGISTICS PVT. LTD.</p>
+                            </div>
+                        </div>
                     </div>
 
-                    <textarea name="motivation" value={form.motivation} onChange={handleChange} className="w-full mt-4 p-3 border rounded-lg" placeholder="Motivation"></textarea>
+                    <div className="bg-yellow-50 border px-6 py-4">
+                        <h2 className="font-semibold text-sm mb-1">
+                            Internship Application & Aptitude Test
+                        </h2>
+                        <p className="text-xs text-gray-600">
+                            This test evaluates your knowledge of air freight, logistics, and supply chain concepts.
+                        </p>
+                    </div>
 
-                    <div className="mt-6 flex justify-end">
-                        <button
-                            disabled={submitted}
-                            className={`px-8 py-3 rounded-lg text-white 
+                    <div className="bg-yellow-100 px-6 py-2 text-xs">
+                        ⭐ Eligibility clause: Only candidates scoring <b>30 or above out of 40</b> are eligible.
+                    </div>
+                    {/* FORM */}
+                    {/* <form onSubmit={handleSubmit} className="p-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <input name="name" value={form.name} onChange={handleChange} placeholder="Full Name" className="p-3 border rounded-lg" required />
+                            <input name="email" value={form.email} onChange={handleChange} placeholder="Email" className="p-3 border rounded-lg" required />
+                            <input
+                                name="phone"
+                                value={form.phone}
+                                onChange={(e) => {
+                                    // ✅ sirf number allow
+                                    const value = e.target.value.replace(/\D/g, "");
+                                    setForm({ ...form, phone: value });
+                                }}
+                                placeholder="+91 XXXXX XXXXX"
+                                maxLength={10}
+                                inputMode="numeric"
+                                pattern="[0-9]*"
+                                className="p-3 border rounded-lg"
+                                required
+                            />
+                            <input name="college" value={form.college} onChange={handleChange} placeholder="College" className="p-3 border rounded-lg" />
+                            <input name="degree" value={form.degree} onChange={handleChange} placeholder="Degree" className="p-3 border rounded-lg" />
+                            <input name="city" value={form.city} onChange={handleChange} placeholder="City" className="p-3 border rounded-lg" />
+                        </div>
+
+                        <textarea name="motivation" value={form.motivation} onChange={handleChange} className="w-full mt-4 p-3 border rounded-lg" placeholder="Motivation"></textarea>
+
+                        <div className="mt-6 flex justify-end">
+                            <button
+                                disabled={submitted}
+                                className={`px-8 py-3 rounded-lg text-white 
                             ${submitted ? "bg-gray-400 cursor-not-allowed" : "bg-[#0057b8]"}`}
-                        >
-                            Continue →
-                        </button>
-                    </div>
-                </form>
+                            >
+                                Continue →
+                            </button>
+                        </div>
+                    </form> */}
+                    {!submitted && (
+                        <form onSubmit={handleSubmit} className="p-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-                {/* QUIZ */}
-                {submitted && (
-                    <div className="px-8 pb-8 border-t">
-
-                        {questionsList.map((qIndex, idx) => {
-
-                            const currentSection = sectionTitles[qIndex];
-                            const prevSection = sectionTitles[questionsList[idx - 1]];
-                            const isNewSection = idx === 0 || currentSection !== prevSection;
-
-                            const [label, title] = currentSection.split(" - ");
-
-                            return (
-                                <div key={idx}>
-
-                                    {isNewSection && (
-                                        <div className="flex items-center gap-3 mt-6 mb-3">
-                                            <span className="bg-[#0D2DD0] text-white text-xs px-3 py-1 rounded-full font-semibold">
-                                                {label}
-                                            </span>
-                                            <h2 className="text-lg font-semibold">{title}</h2>
-                                        </div>
-                                    )}
-
-                                    <div className="border rounded-xl p-5 mb-4 bg-white shadow-sm">
-
-                                        <p className="mb-3 font-medium">
-                                            {questions[qIndex].question}
-                                        </p>
-
-                                        <div className="grid md:grid-cols-2 gap-3">
-                                            {questions[qIndex].options.map((opt, i) => (
-                                                <label key={i} className={`p-3 border rounded-lg cursor-pointer ${answers[qIndex] === opt ? "bg-blue-50 border-blue-500" : ""}`}>
-                                                    <input
-                                                        type="radio"
-                                                        checked={answers[qIndex] === opt}
-                                                        onChange={() => handleSelect(qIndex, opt)}
-                                                    />
-                                                    <span className="ml-2">{opt}</span>
-                                                </label>
-                                            ))}
-                                        </div>
-
-                                        {idx === currentIndex && (
-                                            <div className="flex justify-between mt-4">
-                                                <p className="text-red-500">⏱ {timeLeft}s</p>
-                                                <button
-                                                    onClick={handleNext}
-                                                    className="bg-[#0057b8] text-white px-4 py-2 rounded"
-                                                >
-                                                    Next →
-                                                </button>
-                                            </div>
-                                        )}
-
-                                    </div>
+                                {/* NAME */}
+                                <div className="flex flex-col">
+                                    <label className="mb-1 text-sm font-medium">
+                                        Full Name <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        name="name"
+                                        value={form.name}
+                                        onChange={handleChange}
+                                        placeholder="Enter your full name"
+                                        className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required
+                                    />
                                 </div>
-                            );
-                        })}
 
-                    </div>
-                )}
+                                {/* EMAIL */}
+                                <div className="flex flex-col">
+                                    <label className="mb-1 text-sm font-medium">
+                                        Email Address <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        name="email"
+                                        type="email"
+                                        value={form.email}
+                                        onChange={handleChange}
+                                        placeholder="Enter your email address"
+                                        className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required
+                                    />
+                                </div>
 
+                                {/* PHONE */}
+                                <div className="flex flex-col">
+                                    <label className="mb-1 text-sm font-medium">
+                                        Mobile Number <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        name="phone"
+                                        value={form.phone}
+                                        onChange={(e) => {
+                                            const value = e.target.value.replace(/\D/g, "");
+                                            if (value.length <= 10) {
+                                                setForm({ ...form, phone: value });
+                                            }
+                                        }}
+                                        placeholder="+91 XXXXX XXXXX"
+                                        maxLength={10}
+                                        inputMode="numeric"
+                                        pattern="[0-9]*"
+                                        className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required
+                                    />
+                                </div>
+
+                                {/* COLLEGE */}
+                                <div className="flex flex-col">
+                                    <label className="mb-1 text-sm font-medium">
+                                        College / University
+                                    </label>
+                                    <input
+                                        name="college"
+                                        value={form.college}
+                                        onChange={handleChange}
+                                        placeholder="Enter your college name"
+                                        className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    />
+                                </div>
+
+                                {/* DEGREE */}
+                                <div className="flex flex-col">
+                                    <label className="mb-1 text-sm font-medium">
+                                        Degree
+                                    </label>
+                                    <input
+                                        name="degree"
+                                        value={form.degree}
+                                        onChange={handleChange}
+                                        placeholder="e.g. B.Tech, BBA, MBA"
+                                        className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    />
+                                </div>
+
+                                {/* CITY */}
+                                <div className="flex flex-col">
+                                    <label className="mb-1 text-sm font-medium">
+                                        City
+                                    </label>
+                                    <input
+                                        name="city"
+                                        value={form.city}
+                                        onChange={handleChange}
+                                        placeholder="Enter your city"
+                                        className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    />
+                                </div>
+
+                            </div>
+
+                            {/* MOTIVATION */}
+                            <div className="mt-4 flex flex-col">
+                                <label className="mb-1 text-sm font-medium">
+                                    Motivation
+                                </label>
+                                <textarea
+                                    name="motivation"
+                                    value={form.motivation}
+                                    onChange={handleChange}
+                                    placeholder="Tell us why you want this internship..."
+                                    className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+
+                            {/* BUTTON */}
+                            <div className="mt-6 flex justify-end">
+                                <button
+                                    disabled={submitted}
+                                    className={`px-8 py-3 rounded-lg text-white 
+      ${submitted ? "bg-gray-400 cursor-not-allowed" : "bg-[#0057b8] hover:bg-blue-700"}`}
+                                >
+                                    Continue →
+                                </button>
+                            </div>
+                        </form>
+                    )}
+
+                    {/* QUIZ */}
+                    {submitted && (
+                        <div className="flex justify-center items-center min-h-[60vh]">
+
+                            <div className="w-full max-w-2xl border rounded-xl p-6 bg-white shadow">
+
+                                {/* Section Title */}
+                                <div className="mb-4">
+                                    {(() => {
+                                        const [label, title] = sectionTitles[currentIndex].split(" - ");
+                                        return (
+                                            <div className="flex items-center gap-3">
+                                                <span className="bg-[#0D2DD0] text-white text-xs px-3 py-1 rounded-full font-semibold">
+                                                    {label}
+                                                </span>
+                                                <h2 className="text-lg font-semibold">{title}</h2>
+                                            </div>
+                                        );
+                                    })()}
+                                </div>
+
+                                {/* Question */}
+                                <p className="mb-4 font-medium text-center">
+                                    {questions[currentIndex].question}
+                                </p>
+
+                                {/* Options */}
+                                <div className="grid gap-3">
+                                    {questions[currentIndex].options.map((opt, i) => (
+                                        <label
+                                            key={i}
+                                            className={`p-3 border rounded-lg cursor-pointer text-center ${answers[currentIndex] === opt
+                                                ? "bg-blue-50 border-blue-500"
+                                                : ""
+                                                }`}
+                                        >
+                                            <input
+                                                type="radio"
+                                                checked={answers[currentIndex] === opt}
+                                                onChange={() => handleSelect(currentIndex, opt)}
+                                            />
+                                            <span className="ml-2">{opt}</span>
+                                        </label>
+                                    ))}
+                                </div>
+
+                                {/* Bottom */}
+                                <div className="flex justify-between mt-6">
+                                    <p className="text-red-500">⏱ {timeLeft}s</p>
+
+                                    <button
+                                        onClick={handleNext}
+                                        className="bg-[#0057b8] text-white px-5 py-2 rounded"
+                                    >
+                                        Next →
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    )}
+
+                </div>
             </div>
-        </div>
+
+            {/* GLOBAL FOOTER */}
+            <Footer />
+        </>
     );
 };
 

@@ -12,6 +12,15 @@ export const createInternship = async (req, res) => {
             });
         }
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({
+                status: false,
+                message: "Invalid email format",
+            });
+        }
+
         // ✅ Check if email already exists
         const [existing] = await pool.query(
             "SELECT id FROM internships WHERE email = ?",
